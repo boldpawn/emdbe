@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package emdbe;
+
+message Event {
+  EventContext context = 1;
+  string id = 2;
+  string timestamp = 3;
+  google.protobuf.Any content = 4;
+}
+
+message EventContext {
+  string space = 1;
+  string partition = 2;
+}
+service EventService {
+  rpc Store(stream StoreEventRequest) returns (stream StoreEventResponse)  {}
+  rpc Consume(stream ConsumeEventsRequest) returns (stream ConsumeEventsResponse) {}
+}
+message StoreEventRequest {
+  EventContext context = 1;
+  google.protobuf.Any content = 2;
+}
+message StoreEventResponse {
+  Event event = 1;
+}
+message ConsumeEventsRequest {
+  EventContext context = 1;
+  string lastEventId = 2;
+}
+message ConsumeEventsResponse {
+  Event event = 1;
+}
