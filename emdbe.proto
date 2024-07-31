@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/any.proto";
 
-package emdbe;
+package com.boldpawn.emdbe;
 
 message Event {
   EventContext context = 1;
